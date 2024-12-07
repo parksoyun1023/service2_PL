@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>인공지능서비스개발</title>
+    <link rel="stylesheet" href="test.css">
+    <script src="./config.js"></script>
+    <script>
+        document.write('<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=' + KAKAO_APP_KEY + '&libraries=services"><\/script>');
+    </script>
+    <script src="./test.js" defer></script>
+    <script src="./chatbot.js" defer></script>
+</head>
+<body>
+<div class="map_wrap">
+    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;">
+        <div id="chat-box" class="chat-box" style="display: none;">
+            <div id="chat-messages"></div> <!-- 추가된 부분 -->
+            <input type="text" id="user-input" id="chatInput" placeholder="메시지를 입력하세요..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">전송</button>
+        </div>
+    </div>
+    <div id="roadview"> </div>
+    <div class="custom_typecontrol radius_border">
+        <span id="btnRoadmap" class="selected_btn" onclick="setMapType('roadmap')">지도</span>
+        <span id="btnSkyview" class="btn" onclick="setMapType('skyview')">스카이뷰</span>
+    </div>
+    <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
+    <div class="custom_zoomcontrol radius_border"> 
+        <span onclick="zoomIn()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"></span>  
+        <span onclick="zoomOut()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"></span>
+    </div>  
+    <img src="./free-icon-gps-signal-67335.png" alt="현재 위치로 가기" class="right-image" id="currentLocationImage">
+    
+    <div class="overlay-buttons">
+        <button onclick="setOverlayMapTypeId('traffic')">
+            <img src="./traffic.png" alt="교통정보 보기" class="traffic-img">
+        </button> 
+        <button onclick="toggleRoadviewButton()">
+            <img src="./cam.png" alt="로드뷰 도로정보 보기" class="roadview-img">
+        </button>
+    </div>
+
+    <button class="chat-toggle-button" onclick="toggleChatBox()" id="chat-toggle-button">🤖</button>
+
+    <input type="checkbox" id="menuicon" checked>
+    <ul>
+        <li>
+            <label for="menuicon">
+                <span></span><span></span><span></span>
+            </label>
+        </li>  
+    </ul>
+    
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <ul id="category">
+                <li id="AT4" data-order="0"> 
+                    <span class="category_bg bank"> </span>
+                    <img src="a.png" alt="주변 여행�� 아이콘" class="category-icon">
+                    주변여행지
+                </li>       
+                <li id="FD6" data-order="1"> 
+                    <span class="category_bg mart"></span>
+                    <img src="b.png" alt="음식점 아이콘" class="category-icon">
+                    음식점
+                </li>  
+                <li id="CE7" data-order="2"> 
+                    <span class="category_bg pharmacy"></span>
+                    <img src="c.png" alt="카페 아이콘" class="category-icon">
+                    카페
+                </li>  
+                <li id="AD5" data-order="3"> 
+                    <span class="category_bg oil"></span>
+                    <img src="d.png" alt="숙소 아이콘" class="category-icon">
+                    숙소
+                </li>  
+                <li id="PK6" data-order="4"> 
+                    <span class="category_bg cafe"></span>
+                    <img src="e.png" alt="주차장 아이콘" class="category-icon">
+                    주차장
+                </li>
+                <li id="HP8" data-order="5"> 
+                    <span class="category_bg cafe"></span>
+                    <img src="r.png" alt="병원 아이콘" class="category-icon">
+                    병원
+                </li>  
+                <li id="PM9" data-order="6"> 
+                    <span class="category_bg cafe"></span>
+                    <img src="f.png" alt="약국 아이콘" class="category-icon">
+                    약국    
+                </li> 
+            </ul>
+            <div id="weatherInfo" class="weather-container">
+                <strong class="region-name"></strong>
+            </div>
+        </div>
+
+        <ul id="sidebar" class="sidebar-list"></ul> 
+        <div class="marker" id="currentMarker" style="display: none;"></div>
+        
+        <div id="sidebarContent" class="sidebar-content"></div>
+    </div>
+</div>
+
+<script>
+function toggleChatBox() {
+    const chatBox = document.getElementById('chat-box');
+    const chatToggleButton = document.getElementById('chat-toggle-button');
+    if (chatBox.style.display === 'none' || chatBox.style.display === '') {
+        chatBox.style.display = 'block';
+        chatToggleButton.style.display = 'none';
+    } else {
+        chatBox.style.display = 'none';
+        chatToggleButton.style.display = 'block';
+    }
+}
+</script>
+</body>
+</html>
+
